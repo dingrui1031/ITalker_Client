@@ -1,4 +1,4 @@
-package cn.dingrui.common.app.widget.recycler;
+package cn.dingrui.common.widget.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -182,6 +182,24 @@ public abstract class BaseRecyclerAdapter<Data>
         notifyDataSetChanged();
     }
 
+    /**
+     * 实现AdapterCallBack下的update
+     * @param data
+     * @param holder
+     */
+    @Override
+    public void update(Data data, ViewHolder holder) {
+        // 得到当前ViewHolder的坐标
+        int pos = holder.getAdapterPosition();
+        if (pos >= 0) {
+            // 进行数据的移除与更新
+            mDataList.remove(pos);
+            mDataList.add(pos, data);
+            // 通知这个坐标下的数据有更新
+            notifyItemChanged(pos);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         ViewHolder viewHolder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
@@ -268,6 +286,24 @@ public abstract class BaseRecyclerAdapter<Data>
             if (mCallBack != null) {
                 mCallBack.update(data, this);
             }
+        }
+    }
+
+    /**
+     * 对回调接口做一次实现AdapterListener
+     *
+     * @param <Data>
+     */
+    public static abstract class AdapterListenerImpl<Data> implements AdapterListener<Data> {
+
+        @Override
+        public void onItemClick(ViewHolder holder, Data data) {
+
+        }
+
+        @Override
+        public void onItemLongClick(ViewHolder holder, Data data) {
+
         }
     }
 }

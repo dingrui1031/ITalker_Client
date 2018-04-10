@@ -1,10 +1,11 @@
 package cn.dingrui.italker;
 
-import android.app.Application;
+
+import cn.dingrui.common.app.BaseApplication;
 
 /**
  * Created by dingrui
  */
 
-public class App extends Application {
+public class App extends BaseApplication {
 }

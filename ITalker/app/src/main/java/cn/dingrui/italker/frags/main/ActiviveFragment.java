@@ -1,5 +1,7 @@
 package cn.dingrui.italker.frags.main;
 
+import android.view.View;
+
 import cn.dingrui.common.app.BaseFragment;
 import cn.dingrui.italker.R;
 
@@ -9,6 +11,7 @@ import cn.dingrui.italker.R;
 
 public class ActiviveFragment extends BaseFragment {
 
+
     public ActiviveFragment() {
     }
 
@@ -16,4 +19,11 @@ public class ActiviveFragment extends BaseFragment {
     protected int getContentLayoutId() {
         return R.layout.fragment_active;
     }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+
+    }
+
 }

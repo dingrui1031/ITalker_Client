@@ -1,4 +1,4 @@
-package cn.dingrui.common.app.widget.recycler;
+package cn.dingrui.common.widget.recycler;
 
 /**
  * Created by ding192 on 2018/4/2.

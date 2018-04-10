@@ -1,5 +1,7 @@
 package cn.dingrui.italker.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -25,8 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.dingrui.common.app.BaseActivity;
-import cn.dingrui.common.app.widget.PortraitView;
+import cn.dingrui.common.widget.PortraitView;
 import cn.dingrui.italker.R;
+import cn.dingrui.italker.frags.assist.PermissionsFragment;
 import cn.dingrui.italker.frags.main.ActiviveFragment;
 import cn.dingrui.italker.frags.main.ContactFragment;
 import cn.dingrui.italker.frags.main.GroupFragment;
@@ -57,6 +60,15 @@ public class MainActivity extends BaseActivity
 
     private NavHelper<Integer> mNavHelper;
 
+    /**
+     * MainActivity 显示的入口
+     *
+     * @param context 上下文
+     */
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
@@ -86,6 +98,8 @@ public class MainActivity extends BaseActivity
                         this.view.setBackground(resource.getCurrent());
                     }
                 });
+
+        PermissionsFragment.haveAll(this,getSupportFragmentManager());
     }
 
     @Override
@@ -105,7 +119,7 @@ public class MainActivity extends BaseActivity
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-
+        AccountActivity.show(this);
     }
 
     /**

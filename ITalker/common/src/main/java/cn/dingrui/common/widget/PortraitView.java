@@ -1,4 +1,4 @@
-package cn.dingrui.common.app.widget;
+package cn.dingrui.common.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
