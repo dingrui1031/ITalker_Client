@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import cn.dingrui.common.app.BaseApplication;
+import cn.dingrui.common.common.app.BaseApplication;
 import cn.dingrui.italker.R;
 import cn.dingrui.italker.frags.media.GalleryFragment;
 import pub.devrel.easypermissions.AfterPermissionGranted;

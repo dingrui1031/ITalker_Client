@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.Date;
 
 import cn.dingrui.factory.Factory;
-import utils.HashUtil;
+import cn.dingrui.common.utils.HashUtil;
 
 /**
  * 上传工具类，用于上传任意文件到阿里OSS存储

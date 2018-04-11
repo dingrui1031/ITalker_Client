@@ -2,7 +2,7 @@ package cn.dingrui.italker.frags.main;
 
 import android.view.View;
 
-import cn.dingrui.common.app.BaseFragment;
+import cn.dingrui.common.common.app.BaseFragment;
 import cn.dingrui.italker.R;
 
 /**

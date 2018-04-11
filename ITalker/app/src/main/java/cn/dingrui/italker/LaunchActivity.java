@@ -1,6 +1,6 @@
 package cn.dingrui.italker;
 
-import cn.dingrui.common.app.BaseActivity;
+import cn.dingrui.common.common.app.BaseActivity;
 import cn.dingrui.italker.activities.MainActivity;
 import cn.dingrui.italker.frags.assist.PermissionsFragment;
 
