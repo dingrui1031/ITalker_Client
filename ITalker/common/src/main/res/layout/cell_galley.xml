@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.dingrui.common.widget.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                       xmlns:app="http://schemas.android.com/apk/res-auto"
-                                       xmlns:tools="http://schemas.android.com/tools"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="match_parent"
-                                       android:layout_margin="1dp"
-                                       android:background="@color/white"
-                                       android:orientation="vertical">
+<cn.dingrui.common.common.widget.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              xmlns:tools="http://schemas.android.com/tools"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="match_parent"
+                                              android:layout_margin="1dp"
+                                              android:background="@color/white"
+                                              android:orientation="vertical">
 
     <ImageView
         android:id="@+id/im_image"
@@ -37,4 +37,4 @@
         app:buttonTint="@color/cb_gallery"
         tools:visibility="visible" />
 
-</cn.dingrui.common.widget.SquareLayout>
+</cn.dingrui.common.common.widget.SquareLayout>
