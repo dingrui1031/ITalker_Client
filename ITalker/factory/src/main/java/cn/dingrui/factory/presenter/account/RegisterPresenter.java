@@ -16,6 +16,7 @@ import cn.dingrui.factory.R;
 import cn.dingrui.factory.data.helper.AccountHelper;
 import cn.dingrui.factory.model.api.account.RegisterModel;
 import cn.dingrui.factory.model.db.User;
+import cn.dingrui.factory.persistence.Account;
 
 /**
  * 注册的逻辑实现
@@ -49,7 +50,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View>
             //网络请求
 
             //构造model，进行请求调用
-            RegisterModel registerModel = new RegisterModel(phone, password, name);
+            RegisterModel registerModel = new RegisterModel(phone, password, name, Account.getPushId());
             AccountHelper.register(registerModel, this);
         }
     }

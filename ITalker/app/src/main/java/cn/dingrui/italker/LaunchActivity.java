@@ -2,10 +2,10 @@ package cn.dingrui.italker;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.ColorDrawable;
-import android.support.graphics.drawable.ArgbEvaluator;
 import android.text.TextUtils;
 import android.util.Property;
 import android.view.View;
@@ -68,11 +68,21 @@ public class LaunchActivity extends BaseActivity {
      * 等待个推框架对我们的pushId设置好值
      */
     private void waitPushReceiverId() {
-        //如果拿到了
-        if (!TextUtils.isEmpty(Account.getPushId())) {
-            //跳转
-            skip();
-            return;
+        if (Account.isLogin()) {
+            // 已经登录情况下，判断是否绑定
+            // 如果没有绑定则等待广播接收器进行绑定
+            if (Account.isBind()) {
+                skip();
+                return;
+            }
+        } else {
+            // 没有登录
+            // 如果拿到了PushId, 没有登录是不能绑定PushId的
+            if (!TextUtils.isEmpty(Account.getPushId())) {
+                // 跳转
+                skip();
+                return;
+            }
         }
 
         // 循环等待

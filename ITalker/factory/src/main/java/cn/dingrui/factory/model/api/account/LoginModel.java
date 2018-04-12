@@ -8,16 +8,16 @@ public class LoginModel {
 
     private String account;
     private String password;
-    private String name;
+    private String pushId;
 
     public LoginModel(String account, String password) {
         this(account, password, null);
     }
 
-    public LoginModel(String account, String password, String name) {
+    public LoginModel(String account, String password, String pushId) {
         this.account = account;
         this.password = password;
-        this.name = name;
+        this.pushId = pushId;
     }
 
     public String getAccount() {
@@ -36,11 +36,11 @@ public class LoginModel {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getPushId() {
+        return pushId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 }

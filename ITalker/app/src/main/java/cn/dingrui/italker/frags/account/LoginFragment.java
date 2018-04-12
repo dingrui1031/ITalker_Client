@@ -50,10 +50,6 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter> im
         return R.layout.fragment_login;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @OnClick(R.id.btn_submit)
     void onSubmitClick() {

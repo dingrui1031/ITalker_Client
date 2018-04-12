@@ -7,6 +7,7 @@ import cn.dingrui.factory.Factory;
 import cn.dingrui.factory.R;
 import cn.dingrui.factory.model.api.RspModel;
 import cn.dingrui.factory.model.api.account.AccountRspModel;
+import cn.dingrui.factory.model.api.account.LoginModel;
 import cn.dingrui.factory.model.api.account.RegisterModel;
 import cn.dingrui.factory.model.db.User;
 import cn.dingrui.factory.net.NetWork;
@@ -34,59 +35,22 @@ public class AccountHelper {
         //得到一个Call
         Call<RspModel<AccountRspModel>> call = remoteService.accountRegister(registerModel);
         //异步请求
-        call.enqueue(new Callback<RspModel<AccountRspModel>>() {
-            @Override
-            public void onResponse(Call<RspModel<AccountRspModel>> call, Response<RspModel<AccountRspModel>> response) {
-                //网络请求成功
-                //从返回中得到我们全局的model，内部使用Gson解析
-                RspModel<AccountRspModel> rspModel = response.body();
-                if (rspModel.success()) {
-                    //拿到实体
-                    AccountRspModel accountRspModel = rspModel.getResult();
-                    //判断绑定状态，是否绑定设备
-                    if (accountRspModel.isBind()) {
-                        User user = accountRspModel.getUser();
-                        //进行数据库写入和缓存绑定
-                        // 第一种，之间保存
-                        user.save();
-                    /*
-                    // 第二种通过ModelAdapter
-                    FlowManager.getModelAdapter(User.class)
-                            .save(user);
+        call.enqueue(new AccountRspCallback(callback));
+    }
 
-                    // 第三种，事务中
-                    DatabaseDefinition definition = FlowManager.getDatabase(AppDatabase.class);
-                    definition.beginTransactionAsync(new ITransaction() {
-                        @Override
-                        public void execute(DatabaseWrapper databaseWrapper) {
-                            FlowManager.getModelAdapter(User.class)
-                                    .save(user);
-                        }
-                    }).build().execute();
-                    */
-                        //同步到xml持久化
-                        Account.login(accountRspModel);
-                        //判断绑定状态
-                        if (accountRspModel.isBind()) {
-                            //然后返回
-                            callback.onDataLoaded(user);
-                        } else {
-                            //进行绑定
-                            bindPush(callback);
-                        }
-                    }
-                } else {
-                    // todo 错误解析
-                    Factory.decodeRspCode(rspModel, callback);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RspModel<AccountRspModel>> call, Throwable t) {
-                //网络请求失败
-                callback.onDataNotAvailable(R.string.data_network_error);
-            }
-        });
+    /**
+     * 登陆的接口，异步调用
+     *
+     * @param loginModel 传递一个登陆的model
+     * @param callback      成功与失败的接口回送
+     */
+    public static void login(LoginModel loginModel, final DataSource.Callback<User> callback) {
+        //调用Retrofit对我们的网络请求接口做代理
+        RemoteService remoteService = NetWork.remote();
+        //得到一个Call
+        Call<RspModel<AccountRspModel>> call = remoteService.accountLogin(loginModel);
+        //异步请求
+        call.enqueue(new AccountRspCallback(callback));
     }
 
     /**
@@ -99,9 +63,12 @@ public class AccountHelper {
         //检查是否为空
         if (TextUtils.isEmpty(pushId))
             return;
-
-        NetWork.remote();
-        Account.setBind(true);
+        //调用Retrofit对我们的网络请求接口做代理
+        RemoteService remoteService = NetWork.remote();
+        //得到一个call
+        Call<RspModel<AccountRspModel>> call = remoteService.accountBind(pushId);
+        //异步请求
+        call.enqueue(new AccountRspCallback(callback));
     }
 
     /**
