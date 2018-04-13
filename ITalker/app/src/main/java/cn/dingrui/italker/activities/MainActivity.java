@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.dingrui.common.common.app.BaseActivity;
 import cn.dingrui.common.common.widget.PortraitView;
+import cn.dingrui.factory.persistence.Account;
 import cn.dingrui.italker.R;
 import cn.dingrui.italker.frags.assist.PermissionsFragment;
 import cn.dingrui.italker.frags.main.ActiviveFragment;
@@ -70,6 +71,18 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected boolean initArgs(Bundle bundle) {
+        if (Account.isComplete()) {
+            //判断用户信息是否完全，完全则走正常流程
+            return super.initArgs(bundle);
+        } else {
+            //跳转到用户界面
+            UserActivity.show(this);
+            return false;
+        }
+    }
+
+    @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
     }
@@ -99,7 +112,7 @@ public class MainActivity extends BaseActivity
                     }
                 });
 
-        PermissionsFragment.haveAll(this,getSupportFragmentManager());
+        PermissionsFragment.haveAll(this, getSupportFragmentManager());
     }
 
     @Override
@@ -114,12 +127,23 @@ public class MainActivity extends BaseActivity
 
     @OnClick(R.id.im_search)
     void onSearchMenuClick() {
-
+        // 在群的界面的时候，点击顶部的搜索就进入群搜索界面
+        // 其他都为人搜索的界面
+        int type = Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group) ?
+                SearchActivity.TYPE_GROUP : SearchActivity.TYPE_GROUP;
+        SearchActivity.show(this, type);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        AccountActivity.show(this);
+        //判断当前界面是群还是联系人界面
+        //如果是群，则打开群创建的界面
+        //其他都打开添加用户界面
+        if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group)) {
+            //todo 打开群创建界面
+        } else {
+            SearchActivity.show(this, SearchActivity.TYPE_USER);
+        }
     }
 
     /**
@@ -175,10 +199,4 @@ public class MainActivity extends BaseActivity
                 .start();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

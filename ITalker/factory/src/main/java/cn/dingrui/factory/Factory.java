@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -18,17 +19,16 @@ import cn.dingrui.factory.persistence.Account;
 import cn.dingrui.factory.utils.DBFlowExclusionStrategy;
 
 /**
- * Created by dingrui
+ * @author dingrui
  */
-
 public class Factory {
-
-    // 单例模式
+    // 单例模式ø
     private static final Factory instance;
     // 全局的线程池
     private final Executor executor;
     // 全局的Gson
     private final Gson gson;
+
 
     static {
         instance = new Factory();
@@ -49,11 +49,12 @@ public class Factory {
      * Factory 中的初始化
      */
     public static void setup() {
-        //数据库的初始化
+        // 初始化数据库
         FlowManager.init(new FlowConfig.Builder(app())
-                .openDatabasesOnInit(true)//数据库初始化的时候就开始打开
+                .openDatabasesOnInit(true) // 数据库初始化的时候就开始打开
                 .build());
-        //持久化数据进行初始化
+
+        // 持久化的数据进行初始化
         Account.load(app());
     }
 
@@ -86,19 +87,20 @@ public class Factory {
         return instance.gson;
     }
 
+
     /**
      * 进行错误Code的解析，
      * 把网络返回的Code值进行统一的规划并返回为一个String资源
      *
-     * @param rspModel RspModel
+     * @param model    RspModel
      * @param callback DataSource.FailedCallback 用于返回一个错误的资源Id
      */
-    public static void decodeRspCode(RspModel rspModel, DataSource.FailedCallback callback) {
-        if (rspModel == null)
+    public static void decodeRspCode(RspModel model, DataSource.FailedCallback callback) {
+        if (model == null)
             return;
 
         // 进行Code区分
-        switch (rspModel.getCode()) {
+        switch (model.getCode()) {
             case RspModel.SUCCEED:
                 return;
             case RspModel.ERROR_SERVICE:
@@ -133,7 +135,6 @@ public class Factory {
                 break;
             case RspModel.ERROR_ACCOUNT_TOKEN:
                 BaseApplication.showToast(R.string.data_rsp_error_account_token);
-                //退出登录
                 instance.logout();
                 break;
             case RspModel.ERROR_ACCOUNT_LOGIN:
@@ -158,12 +159,14 @@ public class Factory {
             callback.onDataNotAvailable(resId);
     }
 
+
     /**
      * 收到账户退出的消息需要进行账户退出重新登录
      */
     private void logout() {
 
     }
+
 
     /**
      * 处理推送来的消息

@@ -13,12 +13,9 @@ import cn.dingrui.factory.model.db.User_Table;
 
 
 /**
- * 持久化存储
- * Created by dingrui
+ * @author dingrui
  */
-
 public class Account {
-
     private static final String KEY_PUSH_ID = "KEY_PUSH_ID";
     private static final String KEY_IS_BIND = "KEY_IS_BIND";
     private static final String KEY_TOKEN = "KEY_TOKEN";
@@ -36,38 +33,37 @@ public class Account {
     // 登录的账户
     private static String account;
 
+
     /**
-     * 存储数据到xml，进行持久化
-     * @param context
+     * 存储数据到XML文件，持久化
      */
-    private static void save(Context context){
-        //获取数据持久化的SP
-        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),Context.MODE_PRIVATE);
-        //数据存储
+    private static void save(Context context) {
+        // 获取数据持久化的SP
+        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+                Context.MODE_PRIVATE);
+        // 存储数据
         sp.edit()
                 .putString(KEY_PUSH_ID, pushId)
                 .putBoolean(KEY_IS_BIND, isBind)
                 .putString(KEY_TOKEN, token)
                 .putString(KEY_USER_ID, userId)
                 .putString(KEY_ACCOUNT, account)
-                //异步操作
                 .apply();
     }
 
     /**
      * 进行数据加载
-     * @param context
      */
-    public static void load(Context context){
-        //获取数据持久化的SP
-        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),Context.MODE_PRIVATE);
-        //获取数据
+    public static void load(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+                Context.MODE_PRIVATE);
         pushId = sp.getString(KEY_PUSH_ID, "");
         isBind = sp.getBoolean(KEY_IS_BIND, false);
         token = sp.getString(KEY_TOKEN, "");
         userId = sp.getString(KEY_USER_ID, "");
         account = sp.getString(KEY_ACCOUNT, "");
     }
+
 
     /**
      * 设置并存储设备的Id
@@ -76,17 +72,24 @@ public class Account {
      */
     public static void setPushId(String pushId) {
         Account.pushId = pushId;
+        Account.save(Factory.app());
     }
 
+    /**
+     * 获取推送Id
+     *
+     * @return 推送Id
+     */
     public static String getPushId() {
         return pushId;
     }
 
     /**
      * 返回当前账户是否登录
-     * @return true已登录
+     *
+     * @return True已登录
      */
-    public static boolean isLogin(){
+    public static boolean isLogin() {
         // 用户Id 和 Token 不为空
         return !TextUtils.isEmpty(userId)
                 && !TextUtils.isEmpty(token);
@@ -108,7 +111,6 @@ public class Account {
         // 未登录返回信息不完全
         return false;
     }
-
 
     /**
      * 是否已经绑定到了服务器
@@ -153,4 +155,12 @@ public class Account {
                 .querySingle();
     }
 
+    /**
+     * 获取当前登录的Token
+     *
+     * @return Token
+     */
+    public static String getToken() {
+        return token;
+    }
 }

@@ -1,6 +1,7 @@
 package cn.dingrui.factory.data.helper;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import cn.dingrui.common.factory.data.DataSource;
 import cn.dingrui.factory.Factory;
@@ -10,66 +11,66 @@ import cn.dingrui.factory.model.api.account.AccountRspModel;
 import cn.dingrui.factory.model.api.account.LoginModel;
 import cn.dingrui.factory.model.api.account.RegisterModel;
 import cn.dingrui.factory.model.db.User;
-import cn.dingrui.factory.net.NetWork;
+import cn.dingrui.factory.net.Network;
 import cn.dingrui.factory.net.RemoteService;
 import cn.dingrui.factory.persistence.Account;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by dingrui
- */
 
+/**
+ * @author dingrui
+ */
 public class AccountHelper {
 
     /**
-     * 注册的接口，异步调用
+     * 注册的接口，异步的调用
      *
-     * @param registerModel 传递一个注册的model
-     * @param callback      成功与失败的接口回送
+     * @param model    传递一个注册的Model进来
+     * @param callback 成功与失败的接口回送
      */
-    public static void register(RegisterModel registerModel, final DataSource.Callback<User> callback) {
-        //调用Retrofit对我们的网络请求接口做代理
-        RemoteService remoteService = NetWork.remote();
-        //得到一个Call
-        Call<RspModel<AccountRspModel>> call = remoteService.accountRegister(registerModel);
-        //异步请求
+    public static void register(final RegisterModel model, final DataSource.Callback<User> callback) {
+        // 调用Retrofit对我们的网络请求接口做代理
+        RemoteService service = Network.remote();
+        // 得到一个Call
+        Call<RspModel<AccountRspModel>> call = service.accountRegister(model);
+        // 异步的请求
         call.enqueue(new AccountRspCallback(callback));
     }
 
     /**
-     * 登陆的接口，异步调用
+     * 登录的调用
      *
-     * @param loginModel 传递一个登陆的model
-     * @param callback      成功与失败的接口回送
+     * @param model    登录的Model
+     * @param callback 成功与失败的接口回送
      */
-    public static void login(LoginModel loginModel, final DataSource.Callback<User> callback) {
-        //调用Retrofit对我们的网络请求接口做代理
-        RemoteService remoteService = NetWork.remote();
-        //得到一个Call
-        Call<RspModel<AccountRspModel>> call = remoteService.accountLogin(loginModel);
-        //异步请求
+    public static void login(final LoginModel model, final DataSource.Callback<User> callback) {
+        // 调用Retrofit对我们的网络请求接口做代理
+        RemoteService service = Network.remote();
+        // 得到一个Call
+        Call<RspModel<AccountRspModel>> call = service.accountLogin(model);
+        // 异步的请求
         call.enqueue(new AccountRspCallback(callback));
     }
 
     /**
-     * 对设备id进行绑定
+     * 对设备Id进行绑定的操作
      *
-     * @param callback
+     * @param callback Callback
      */
     public static void bindPush(final DataSource.Callback<User> callback) {
+        // 检查是否为空
         String pushId = Account.getPushId();
-        //检查是否为空
         if (TextUtils.isEmpty(pushId))
             return;
-        //调用Retrofit对我们的网络请求接口做代理
-        RemoteService remoteService = NetWork.remote();
-        //得到一个call
-        Call<RspModel<AccountRspModel>> call = remoteService.accountBind(pushId);
-        //异步请求
+
+        // 调用Retrofit对我们的网络请求接口做代理
+        RemoteService service = Network.remote();
+        Call<RspModel<AccountRspModel>> call = service.accountBind(pushId);
         call.enqueue(new AccountRspCallback(callback));
     }
+
 
     /**
      * 请求的回调部分封装
@@ -88,12 +89,13 @@ public class AccountHelper {
             // 请求成功返回
             // 从返回中得到我们的全局Model，内部是使用的Gson进行解析
             RspModel<AccountRspModel> rspModel = response.body();
+            Log.e("tag",rspModel.toString());
             if (rspModel.success()) {
                 // 拿到实体
                 AccountRspModel accountRspModel = rspModel.getResult();
                 // 获取我的信息
                 User user = accountRspModel.getUser();
-                // 第一种，之间保存
+                // 第一种，直接保存
                 user.save();
                     /*
                     // 第二种通过ModelAdapter
@@ -137,4 +139,5 @@ public class AccountHelper {
                 callback.onDataNotAvailable(R.string.data_network_error);
         }
     }
+
 }

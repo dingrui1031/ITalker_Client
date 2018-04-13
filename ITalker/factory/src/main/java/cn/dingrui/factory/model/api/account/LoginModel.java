@@ -1,17 +1,16 @@
 package cn.dingrui.factory.model.api.account;
 
 /**
- * Created by dingrui
+ * @author dingrui
  */
-
 public class LoginModel {
-
     private String account;
     private String password;
     private String pushId;
 
     public LoginModel(String account, String password) {
-        this(account, password, null);
+        this.account = account;
+        this.password = password;
     }
 
     public LoginModel(String account, String password, String pushId) {

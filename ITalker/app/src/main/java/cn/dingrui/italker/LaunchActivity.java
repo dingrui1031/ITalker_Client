@@ -65,7 +65,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     /**
-     * 等待个推框架对我们的pushId设置好值
+     * 等待个推框架对我们的PushId设置好值
      */
     private void waitPushReceiverId() {
         if (Account.isLogin()) {
@@ -95,6 +95,7 @@ public class LaunchActivity extends BaseActivity {
                 }, 500);
     }
 
+
     /**
      * 在跳转之前需要把剩下的50%进行完成
      */
@@ -122,7 +123,6 @@ public class LaunchActivity extends BaseActivity {
             finish();
         }
     }
-
 
     /**
      * 给背景设置一个动画

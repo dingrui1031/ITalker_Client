@@ -1,6 +1,5 @@
 package cn.dingrui.factory.presenter.account;
 
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
 import net.qiujuer.genius.kit.handler.Run;
@@ -15,12 +14,11 @@ import cn.dingrui.factory.model.db.User;
 import cn.dingrui.factory.persistence.Account;
 
 /**
- * 登陆的逻辑实现
- * Created by dingrui
+ * 登录的逻辑实现
+ * @author dingrui
  */
-
-public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter, DataSource.Callback<User> {
-
+public class LoginPresenter extends BasePresenter<LoginContract.View>
+        implements LoginContract.Presenter, DataSource.Callback<User> {
     public LoginPresenter(LoginContract.View view) {
         super(view);
     }
@@ -29,14 +27,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     public void login(String phone, String password) {
         start();
 
-        LoginContract.View view = getView();
+        final LoginContract.View view = getView();
 
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
             view.showError(R.string.data_account_login_invalid_parameter);
         } else {
             // 尝试传递PushId
-            LoginModel loginModel = new LoginModel(phone, password, Account.getPushId());
-            AccountHelper.login(loginModel, this);
+            LoginModel model = new LoginModel(phone, password, Account.getPushId());
+            AccountHelper.login(model, this);
         }
     }
 
@@ -45,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         final LoginContract.View view = getView();
         if (view == null)
             return;
-        //强制执行在主线程中
+        // 强制执行在主线程中
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
@@ -55,15 +53,17 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void onDataNotAvailable(@StringRes final int strRes) {
+    public void onDataNotAvailable(final int strRes) {
+        // 网络请求告知注册失败
         final LoginContract.View view = getView();
         if (view == null)
             return;
-        //此时是从网络回送回来的，并不保证处于主线程状态
-        //强制执行在主线程中
+        // 此时是从网络回送回来的，并不保证处于主现场状态
+        // 强制执行在主线程中
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
+                // 调用主界面注册失败显示错误
                 view.showError(strRes);
             }
         });

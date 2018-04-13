@@ -10,19 +10,18 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 
+
 import java.io.File;
 import java.util.Date;
 
-import cn.dingrui.factory.Factory;
 import cn.dingrui.common.utils.HashUtil;
+import cn.dingrui.factory.Factory;
 
 /**
  * 上传工具类，用于上传任意文件到阿里OSS存储
- * Created by dingrui
+ * @author dingrui
  */
-
 public class UploadHelper {
-
     private static final String TAG = UploadHelper.class.getSimpleName();
     // 与你们的存储区域有关系
     private static final String ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";

@@ -71,4 +71,14 @@ public class RspModel<T> {
     public void setResult(T result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "RspModel{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", time=" + time +
+                ", result=" + result +
+                '}';
+    }
 }

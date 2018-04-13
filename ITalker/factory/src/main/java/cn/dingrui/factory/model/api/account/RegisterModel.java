@@ -1,12 +1,10 @@
 package cn.dingrui.factory.model.api.account;
 
 /**
- * 注册使用的请求model
- * Created by dingrui
+ * 注册使用的请求Model
+ * @author dingrui
  */
-
 public class RegisterModel {
-
     private String account;
     private String password;
     private String name;

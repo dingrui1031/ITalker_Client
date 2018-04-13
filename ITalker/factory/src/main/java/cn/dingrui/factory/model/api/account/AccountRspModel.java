@@ -1,13 +1,12 @@
 package cn.dingrui.factory.model.api.account;
 
+
 import cn.dingrui.factory.model.db.User;
 
 /**
- * Created by dingrui
+ * @author dingrui
  */
-
 public class AccountRspModel {
-
     // 用户基本信息
     private User user;
     // 当前登录的账号

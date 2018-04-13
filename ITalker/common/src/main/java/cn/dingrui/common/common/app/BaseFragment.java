@@ -10,14 +10,16 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.dingrui.common.common.widget.convention.PlaceHolderView;
 
 /**
  * Created by ding192 on 2018/4/2.
  */
 
 public abstract class BaseFragment extends Fragment {
-    private View mRoot;
-    private Unbinder mUnbinder;
+    protected View mRoot;
+    protected Unbinder mUnbinder;
+    protected PlaceHolderView mPlaceHolderView;
 
     @Override
     public void onAttach(Context context) {
@@ -91,5 +93,13 @@ public abstract class BaseFragment extends Fragment {
      */
     public boolean onBackPressed() {
         return false;
+    }
+
+    /**
+     * 设置占位布局
+     * @param placeHolderView
+     */
+    public void setPlaceHolderView(PlaceHolderView placeHolderView){
+        this.mPlaceHolderView = placeHolderView;
     }
 }
